@@ -1,82 +1,475 @@
-[custom]
-;不要随意改变关键字，否则会导致出错
-;blackmatrix7规则
+proxy-providers:
+  SUB-PROXY:                                          # 订阅名字，每个订阅不可重名，如果修改需要连同上方proxy-groups中use使用的一同修改
+    type: http
+    url: ""                                           # 订阅连接，如果没有proxy-providers订阅连接，可以去使用订阅转换，输出为【Node List】!
+    interval: 86400                                   # 订阅自动更新时间
+    path: ./subscribe/SUB-PROXY.yaml                  # 订阅节点存放位置
+    health-check:
+      enable: true
+      interval: 300
+      url: http://www.gstatic.com/generate_204        
 
-;设置规则标志位
-;ruleset=🎯 全球直连,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.list
-;ruleset=🎯 全球直连,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.list
-ruleset=🅿️ Paypal,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal.list
-ruleset=🎮 Xbox,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Xbox/Xbox.list
-ruleset=🎯 全球直连,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.list
-ruleset=📹 油管视频,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.list
-ruleset=📢 谷歌FCM,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleFCM/GoogleFCM.list
-ruleset=📢 谷歌,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.list
-ruleset=🎯 全球直连,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SteamCN/SteamCN.list
-ruleset=Ⓜ️ 微软云盘,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OneDrive/OneDrive.list
-ruleset=Ⓜ️ 微软服务,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.list
-ruleset=🍎 苹果服务,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.list
-ruleset=📲 电报消息,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.list
-ruleset=🎶 Spotify,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.list
-ruleset=🎮 游戏平台,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Epic/Epic.list
-ruleset=🎮 游戏平台,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Sony/Sony.list
-ruleset=🎮 游戏平台,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Steam/Steam.list
-ruleset=🎥 奈飞视频,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.list
-ruleset=🎥 Disney+,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Disney/Disney.list
-ruleset=🎥 AmazonPrime,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrimeVideo/PrimeVideo.list
-ruleset=📺 巴哈姆特,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Bahamut/Bahamut.list
-ruleset=📺 哔哩哔哩,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBiliIntl/BiliBiliIntl.list
-ruleset=📺 哔哩哔哩,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.list
-ruleset=🎬 国内媒体,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.list
-ruleset=🌍 国外媒体,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia.list
-ruleset=🚀 节点选择,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Proxy/Proxy.list
-ruleset=🎯 全球直连,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.list
-ruleset=🎯 全球直连,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloud/CloudCN/CloudCN.list
-ruleset=🎯 全球直连,[]GEOIP,CN
-;ruleset=🐟 漏网之鱼,[]FINAL
-ruleset=🐟 漏网之鱼,[]DST-PORT,80
-ruleset=🐟 漏网之鱼,[]DST-PORT,443
-ruleset=🐟 漏网之鱼,[]DST-PORT,22
-ruleset=DIRECT,[]MATCH
-;设置规则标志位
+proxy-groups:
+  - name: 🚀 节点选择
+    type: select                                    # 手动代理组
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🚀 手动切换
+      - ♻️ 自动选择
+      - 🇸🇬 狮城节点
+      - 🇭🇰 香港节点
+      - 🇨🇳 台湾节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🇰🇷 韩国节点
+      - DIRECT
+    #filter: '香港|日本|新加坡|台湾|韩国|美国'           # 节点筛选，支持正则表达式
 
-;设置分组标志位
-custom_proxy_group=🚀 节点选择`select`[]♻️ 自动选择`[]🇸🇬 狮城节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇯🇵 日本节点`[]🇺🇲 美国节点`[]🇰🇷 韩国节点`[]🚀 手动切换`[]DIRECT
-custom_proxy_group=🚀 手动切换`select`^((?!game|iplc).)*$
-custom_proxy_group=♻️ 自动选择`url-test`^((?!game|iplc).)*$`http://www.gstatic.com/generate_204`300,,50
-custom_proxy_group=📲 电报消息`select`[]DIRECT`[]🚀 节点选择`[]🚀 手动切换`[]♻️ 自动选择`[]🇸🇬 狮城节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇯🇵 日本节点`[]🇺🇲 美国节点`[]🇰🇷 韩国节点
-custom_proxy_group=📹 油管视频`select`[]🚀 节点选择`[]🚀 手动切换`[]♻️ 自动选择`[]🇸🇬 狮城节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇯🇵 日本节点`[]🇺🇲 美国节点`[]🇰🇷 韩国节点`[]DIRECT
-custom_proxy_group=🎥 奈飞视频`select`[]🎥 视频节点`[]🚀 手动切换`[]DIRECT
-custom_proxy_group=🎥 Disney+`select`[]🎥 视频节点`[]🚀 手动切换`[]DIRECT
-custom_proxy_group=🎥 AmazonPrime`select`[]🎥 视频节点`[]🚀 手动切换`[]DIRECT
-custom_proxy_group=📺 巴哈姆特`select`[]🇨🇳 台湾节点`[]🚀 节点选择`[]🚀 手动切换`[]DIRECT
-custom_proxy_group=📺 哔哩哔哩`select`[]🎯 全球直连`[]🇨🇳 台湾节点`[]🇭🇰 香港节点
-custom_proxy_group=🌍 国外媒体`select`[]🚀 节点选择`[]🚀 手动切换`[]♻️ 自动选择`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇸🇬 狮城节点`[]🇯🇵 日本节点`[]🇺🇲 美国节点`[]🇰🇷 韩国节点`[]DIRECT
-custom_proxy_group=🎬 国内媒体`select`[]DIRECT`[]🇭🇰 香港节点`[]🇨🇳 台湾节点
-custom_proxy_group=📢 谷歌FCM`select`[]DIRECT`[]🚀 节点选择`[]🇺🇲 美国节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇸🇬 狮城节点`[]🇯🇵 日本节点`[]🇰🇷 韩国节点`[]🚀 手动切换
-custom_proxy_group=📢 谷歌`select`[]🚀 节点选择`[]DIRECT`[]♻️ 自动选择`[]🇸🇬 狮城节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇯🇵 日本节点`[]🇺🇲 美国节点`[]🇰🇷 韩国节点`[]🚀 手动切换
-custom_proxy_group=Ⓜ️ 微软云盘`select`[]DIRECT`[]🚀 节点选择`[]🇺🇲 美国节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇸🇬 狮城节点`[]🇯🇵 日本节点`[]🇰🇷 韩国节点`[]🚀 手动切换
-custom_proxy_group=Ⓜ️ 微软服务`select`[]DIRECT`[]🚀 节点选择`[]🇺🇲 美国节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇸🇬 狮城节点`[]🇯🇵 日本节点`[]🇰🇷 韩国节点`[]🚀 手动切换
-custom_proxy_group=🍎 苹果服务`select`[]DIRECT`[]🚀 节点选择`[]🚀 手动切换
-custom_proxy_group=🎮 Xbox`select`[]DIRECT`[]🎮 游戏节点`[]🚀 节点选择`[]🚀 手动切换
-custom_proxy_group=🎮 游戏平台`select`[]DIRECT`[]🎮 游戏节点`[]🚀 节点选择`[]🚀 手动切换`[]RU 俄罗斯节点`[]🇺🇲 美国节点`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇸🇬 狮城节点`[]🇯🇵 日本节点`[]🇰🇷 韩国节点
-custom_proxy_group=🎶 Spotify`select`^((?!game|iplc).)*$
-custom_proxy_group=🎯 全球直连`select`[]DIRECT
-custom_proxy_group=🐟 漏网之鱼`select`[]🚀 节点选择`[]🚀 手动切换`[]♻️ 自动选择`[]🇭🇰 香港节点`[]🇨🇳 台湾节点`[]🇸🇬 狮城节点`[]🇯🇵 日本节点`[]🇺🇲 美国节点`[]🇰🇷 韩国节点`[]DIRECT
-custom_proxy_group=🇭🇰 香港节点`url-test`^(?!.*game|iplc).*(港|HK|Hong Kong)`http://www.gstatic.com/generate_204`300,,100
-custom_proxy_group=🇯🇵 日本节点`url-test`^(?!.*game|iplc).*(日本|JP|[^-]日|川日|东京|大阪|泉日|埼玉|沪日|深日|Japan)`http://www.gstatic.com/generate_204`300,,100
-custom_proxy_group=🇺🇲 美国节点`url-test`^(?!.*game|iplc).*(美|US|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|United States)`http://www.gstatic.com/generate_204`300,,150
-custom_proxy_group=🇨🇳 台湾节点`url-test`^(?!.*game|iplc).*(台|TW|新北|彰化|Taiwan)`http://www.gstatic.com/generate_204`300,,100
-custom_proxy_group=🇸🇬 狮城节点`url-test`^(?!.*game|iplc).*(新加坡|SG|坡|狮城)`http://www.gstatic.com/generate_204`300,,150
-custom_proxy_group=🇰🇷 韩国节点`url-test`^(?!.*game|iplc).*(韩|KR|KOR|首尔|韓|Korea)`http://www.gstatic.com/generate_204`300,,100
-custom_proxy_group=RU 俄罗斯节点`url-test`(ru|俄罗斯|莫斯科)`http://www.gstatic.com/generate_204`300,,150
-custom_proxy_group=🎥 视频节点`select`(NF|奈飞|解锁|Netflix|NETFLIX|Media|原生|新加坡|Singapore|SG)
-custom_proxy_group=🎮 游戏节点`select`(game|游戏|iplc|土耳其|巴基斯坦|阿根廷)
-custom_proxy_group=🅿️ Paypal`select`(Japan).*(Tokyo)
-;设置分组标志位
+  - name: ♻️ 自动选择 
+    type: url-test                                  # 通过httping URL 自动切换延迟最低的节点
+    use: 
+      - SUB-PROXY
+    tolerance: 50                                   # 容差值：节点差值低于设定值时，不自动切换
+    url: 'http://www.gstatic.com/generate_204'    # 用来测ping的地址
+    interval: 300                                   # 测ping时间(秒)
+    filter: '*'
 
-enable_rule_generator=true
-overwrite_original_rules=true
+  - name: 🇸🇬 狮城节点 
+    type: url-test                                  # 通过httping URL 自动切换延迟最低的节点
+    use: 
+      - SUB-PROXY
+    tolerance: 150                                   # 容差值：节点差值低于设定值时，不自动切换
+    url: 'http://www.gstatic.com/generate_204'    # 用来测ping的地址
+    interval: 300                                   # 测ping时间(秒)
+    filter: '新加坡|SG|坡|狮城'
 
-;clash_rule_base=https://github.com/blackmatrix7/ios_rule_script
+  - name: 🇭🇰 香港节点 
+    type: url-test                                  # 通过httping URL 自动切换延迟最低的节点
+    use: 
+      - SUB-PROXY
+    tolerance: 50                                   # 容差值：节点差值低于设定值时，不自动切换
+    url: 'http://www.gstatic.com/generate_204'    # 用来测ping的地址
+    interval: 300                                   # 测ping时间(秒)
+    filter: '港|HK|Hong Kong'
 
-;luck
+  - name: 🇨🇳 台湾节点 
+    type: url-test                                  # 通过httping URL 自动切换延迟最低的节点
+    use: 
+      - SUB-PROXY
+    tolerance: 100                                   # 容差值：节点差值低于设定值时，不自动切换
+    url: 'http://www.gstatic.com/generate_204'    # 用来测ping的地址
+    interval: 300                                   # 测ping时间(秒)
+    filter: '台|TW|新北|彰化|Taiwan'
+
+  - name: 🇯🇵 日本节点 
+    type: url-test                                  # 通过httping URL 自动切换延迟最低的节点
+    use: 
+      - SUB-PROXY
+    tolerance: 100                                   # 容差值：节点差值低于设定值时，不自动切换
+    url: 'http://www.gstatic.com/generate_204'    # 用来测ping的地址
+    interval: 300                                   # 测ping时间(秒)
+    filter: '日本|JP|[^-]日|川日|东京|大阪|泉日|埼玉|沪日|深日|Japan'
+
+  - name: 🇺🇲 美国节点 
+    type: url-test                                  # 通过httping URL 自动切换延迟最低的节点
+    use: 
+      - SUB-PROXY
+    tolerance: 200                                   # 容差值：节点差值低于设定值时，不自动切换
+    url: 'http://www.gstatic.com/generate_204'    # 用来测ping的地址
+    interval: 300                                   # 测ping时间(秒)
+    filter: '美|US|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|United States'
+
+  - name: 🇰🇷 韩国节点 
+    type: url-test                                  # 通过httping URL 自动切换延迟最低的节点
+    use: 
+      - SUB-PROXY
+    tolerance: 100                                   # 容差值：节点差值低于设定值时，不自动切换
+    url: 'http://www.gstatic.com/generate_204'    # 用来测ping的地址
+    interval: 300                                   # 测ping时间(秒)
+    filter: '韩|KR|KOR|首尔|韓|Korea'
+
+    - name: 🚀 手动切换
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+    filter: '*'
+
+  - name: Ⓜ️ 微软服务
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+    #filter: '香港|日本|新加坡|台湾|韩国|美国'
+
+  - name: 🍎 苹果服务
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+    #filter: '香港|日本|新加坡|台湾|韩国|美国'
+
+  - name: 📹 油管视频
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🚀 节点选择
+    filter: '香港|日本|新加坡|台湾|韩国|美国'
+
+  - name: 📢 谷歌
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🚀 节点选择
+    filter: '香港|日本|新加坡|台湾|韩国|美国'
+
+  - name: 📢 谷歌FCM
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+    filter: '香港|日本|新加坡|台湾|韩国|美国'
+
+  - name: 🎶 Spotify
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🚀 节点选择
+    filter: '*'
+
+  - name: 🌍 国外媒体
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🚀 节点选择
+    filter: '香港|日本|新加坡|台湾|韩国|美国'
+
+  - name: 📲 电报消息
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+      - ♻️ 自动选择
+    #filter: '香港|日本|新加坡|台湾|韩国|美国'
+
+  - name: 🎥 奈飞视频
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🎥 视频节点
+      - 🚀 节点选择
+
+  - name: 🎥 Disney
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🎥 视频节点
+      - 🚀 节点选择
+
+  - name: 🎥 AmazonPrime
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🎥 视频节点
+      - 🚀 节点选择
+
+  - name: 📺 哔哩哔哩
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+    filter: '台|TW|新北|彰化|Taiwan|港|HK|Hong Kong'
+
+  - name: 📺 巴哈姆特
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - 🇨🇳 台湾节点
+    #filter: '台|TW|新北|彰化|Taiwan'
+
+  - name: 🎥 视频节点
+    type: select
+    use: 
+      - SUB-PROXY
+    filter: 'NF|奈飞|解锁|Netflix|NETFLIX|Media|原生|新加坡|Singapore|SG'
+
+  - name: 🎮 Xbox
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+      - 🎮 游戏节点
+    filter: 'game|游戏|iplc|土耳其|巴基斯坦|阿根廷'
+
+  - name: 🎮 游戏平台
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+      - 🎮 游戏节点
+    filter: 'game|游戏|iplc|土耳其|巴基斯坦|阿根廷'
+
+  - name: 🎮 游戏节点
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+    filter: 'game|游戏|iplc|土耳其|巴基斯坦|阿根廷'
+
+  - name: 🅿️ Paypal
+    type: select
+    use: 
+      - SUB-PROXY
+    proxies:
+      - DIRECT
+    filter: '(Japan).*(Tokyo)|美|US|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|United States'
+
+rule-providers:
+
+  Microsoft:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Microsoft.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
+    interval: 86400
+
+  Apple:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Apple.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml
+    interval: 86400
+
+  SystemOTA:
+    type: http
+    behavior: classical
+    path: ./rule-providers/SystemOTA.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SystemOTA/SystemOTA.yaml
+    interval: 86400
+
+  Google:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Google.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
+    interval: 86400
+
+  GoogleFCM:
+    type: http
+    behavior: classical
+    path: ./rule-providers/GoogleFCM.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleFCM/GoogleFCM.yaml
+    interval: 86400
+
+  YouTube:
+    type: http
+    behavior: classical
+    path: ./rule-providers/YouTube.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml
+    interval: 86400
+
+  YouTubeMusic:
+    type: http
+    behavior: classical
+    path: ./rule-providers/YouTubeMusic.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTubeMusic/YouTubeMusic.yaml
+    interval: 86400
+
+  Telegram:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Telegram.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml
+    interval: 86400
+
+  Proxy:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Proxy.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Proxy/Proxy.yaml
+    interval: 86400
+
+  GlobalMedia:
+    type: http
+    behavior: classical
+    path: ./rule-providers/GlobalMedia.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia.yaml
+    interval: 86400
+
+  Netflix:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Netflix.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml
+    interval: 86400
+
+  Disney:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Disney.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Disney/Disney.yaml
+    interval: 86400
+
+  AmazonPrimeVideo:
+    type: http
+    behavior: classical
+    path: ./rule-providers/AmazonPrimeVideo.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AmazonPrimeVideo/AmazonPrimeVideo.yaml
+    interval: 86400
+
+  Bahamut:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Bahamut.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Bahamut/Bahamut.yaml
+    interval: 86400
+
+  BiliBili:
+    type: http
+    behavior: classical
+    path: ./rule-providers/BiliBili.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml
+    interval: 86400
+
+  BiliBiliIntl:
+    type: http
+    behavior: classical
+    path: ./rule-providers/BiliBiliIntl.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBiliIntl/BiliBiliIntl.yaml
+    interval: 86400
+
+  Paypal:
+    type: http
+    behavior: classical
+    path: ./rule-providers/PayPal.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal.yaml
+    interval: 86400
+
+  Xbox:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Xbox.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Xbox/Xbox.yaml
+    interval: 86400
+
+  SteamCN:
+    type: http
+    behavior: classical
+    path: ./rule-providers/SteamCN.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SteamCN/SteamCN.yaml
+    interval: 86400
+
+  Steam:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Steam.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Steam/Steam.yaml
+    interval: 86400
+
+  Sony:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Sony.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Sony/Sony.yaml
+    interval: 86400
+
+  Epic:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Epic.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Epic/Epic.yaml
+    interval: 86400
+
+  Spotify:
+    type: http
+    behavior: classical
+    path: ./rule-providers/Spotify.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml
+    interval: 86400
+
+rules:
+  
+  # 使用代理更新rule-providers
+  - DOMAIN-SUFFIX,githubusercontent.com,🚀 节点选择
+
+  #DNFM
+  - DOMAIN-KEYWORD,dnfm,🇰🇷 韩国节点
+  - DOMAIN-KEYWORD,mdnf,🇰🇷 韩国节点
+  - DOMAIN-KEYWORD,nexon,🇰🇷 韩国节点
+
+  # rule-providers 分流规则
+  # Paypal
+  - RULE-SET,Paypal,🅿️ Paypal
+
+  # 游戏
+  - RULE-SET,Xbox,🎮 Xbox
+  - RULE-SET,Epic,🎮 游戏平台
+  - RULE-SET,Sony,🎮 游戏平台
+  - RULE-SET,Steam,🎮 游戏平台
+  - RULE-SET,SteamCN,DIRECT
+  
+  # 微软
+  - RULE-SET,Microsoft,Ⓜ️ 微软服务
+
+  # 苹果
+  - RULE-SET,Apple,🍎 苹果服务
+  - RULE-SET,SystemOTA,🍎 苹果服务
+
+  # 谷歌
+  - RULE-SET,GoogleFCM,📢 谷歌FCM
+  - RULE-SET,YouTube,📹 油管视频
+  - RULE-SET,YouTubeMusic,📢 谷歌
+  - RULE-SET,Google,📢 谷歌
+
+  # 电报
+  - RULE-SET,Telegram,📲 电报消息
+
+  # 国外流媒体
+  - RULE-SET,Netflix,🎥 视频节点
+  - RULE-SET,Disney,🎥 视频节点
+  - RULE-SET,Disney,🎥 视频节点
+  - RULE-SET,Spotify,🎶 Spotify
+  - RULE-SET,GlobalMedia,🌍 国外媒体
+  
+  # 哔哩哔哩
+  - RULE-SET,BiliBili,📺 哔哩哔哩
+  - RULE-SET,BiliBiliIntl,📺 哔哩哔哩
+  # 巴哈姆特
+  - RULE-SET,Bahamut,📺 巴哈姆特
+  # 节点选择
+  - RULE-SET,Proxy,🚀 节点选择
+
+  # GEOSITE规则 国内直连，国外代理
+  #- GEOSITE,geolocation-cn,DIRECT
+  #- GEOSITE,geolocation-!cn,Proxy
+
+  # GEOIP规则
+  - GEOIP,private,DIRECT
+  - GEOIP,cn,DIRECT
+  
+  - DST-PORT,80,🚀 节点选择
+  - DST-PORT,443,🚀 节点选择
+
+  # 兜底规则
+  - MATCH,DIRECT
